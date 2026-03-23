@@ -1,12 +1,12 @@
 from typing import List
-from sentence_transformers import SentenceTransformer
 
-_model: SentenceTransformer | None = None
+_model = None
 
 
-def get_model() -> SentenceTransformer:
+def get_model():
     global _model
     if _model is None:
+        from sentence_transformers import SentenceTransformer
         _model = SentenceTransformer('sentence-transformers/all-mpnet-base-v2')
     return _model
 
