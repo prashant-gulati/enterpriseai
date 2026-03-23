@@ -1,37 +1,40 @@
 import os
+import json
+import urllib.request
 from typing import List
-from google import genai
 from dotenv import load_dotenv
 
 load_dotenv()
 
-_client = None
+_EMBED_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004'
 
 
-def get_client():
-    global _client
-    if _client is None:
-        _client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
-    return _client
+def _api_key():
+    return os.getenv('GEMINI_API_KEY')
 
 
 def create_embeddings(texts: List[str]) -> List[List[float]]:
-    client = get_client()
+    url = f'{_EMBED_BASE}:batchEmbedContents?key={_api_key()}'
     embeddings = []
     for i in range(0, len(texts), 100):
         batch = texts[i:i + 100]
-        result = client.models.embed_content(
-            model='text-embedding-004',
-            contents=batch,
-        )
-        embeddings.extend(e.values for e in result.embeddings)
+        body = json.dumps({
+            'requests': [
+                {'model': 'models/text-embedding-004', 'content': {'parts': [{'text': t}]}}
+                for t in batch
+            ]
+        }).encode()
+        req = urllib.request.Request(url, data=body, headers={'Content-Type': 'application/json'})
+        with urllib.request.urlopen(req) as resp:
+            data = json.loads(resp.read())
+        embeddings.extend(e['values'] for e in data['embeddings'])
     return embeddings
 
 
 def embed_query(query: str) -> List[float]:
-    client = get_client()
-    result = client.models.embed_content(
-        model='text-embedding-004',
-        contents=query,
-    )
-    return result.embeddings[0].values
+    url = f'{_EMBED_BASE}:embedContent?key={_api_key()}'
+    body = json.dumps({'content': {'parts': [{'text': query}]}}).encode()
+    req = urllib.request.Request(url, data=body, headers={'Content-Type': 'application/json'})
+    with urllib.request.urlopen(req) as resp:
+        data = json.loads(resp.read())
+    return data['embedding']['values']
