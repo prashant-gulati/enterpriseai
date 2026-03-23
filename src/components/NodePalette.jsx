@@ -4,7 +4,7 @@ import { AGENT_FLOWS } from '../constants/agentFlows'
 import useFlowStore from '../store/flowStore'
 import HintPanel from './HintPanel'
 
-const BACKEND = import.meta.env.VITE_BACKEND_URL || '${BACKEND}'
+const BACKEND = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000'
 
 export default function NodePalette() {
   const [hintOpen, setHintOpen] = useState(false)
