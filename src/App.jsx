@@ -21,10 +21,85 @@ const activeTabStyle = {
   borderBottom: '2px solid #5b5bd6',
 }
 
-function ColdStartTimer() {
+function ColdStartTimer({ seconds }) {
+  const [hovered, setHovered] = useState(false)
+
+  const done = seconds === 0
+  const accent = done ? '#22c55e' : seconds <= 15 ? '#ef4444' : '#f59e0b'
+  const progress = seconds / 90
+
+  return (
+    <div
+      style={{ marginLeft: 'auto', padding: '0 16px', display: 'flex', alignItems: 'center', position: 'relative' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* "i" pill */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: '6px',
+        padding: '4px 10px', borderRadius: '20px',
+        background: hovered ? '#1e1e2e' : 'transparent',
+        border: `1px solid ${hovered ? accent : 'transparent'}`,
+        cursor: 'default', transition: 'all 0.15s',
+      }}>
+        <div style={{
+          width: '22px', height: '22px', borderRadius: '50%',
+          border: `1.5px solid ${accent}`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: '13px', fontWeight: '700', color: accent, flexShrink: 0,
+        }}>i</div>
+        <span style={{ fontSize: '11px', fontWeight: '600', color: accent }}>
+          {done ? 'LIVE' : seconds + 's'}
+        </span>
+      </div>
+
+      {/* Hover tooltip */}
+      {hovered && (
+        <div style={{
+          position: 'absolute', top: '100%', right: 0, marginTop: '8px',
+          background: '#13131e', border: `1px solid ${accent}`,
+          borderRadius: '10px', padding: '14px 16px', width: '260px',
+          zIndex: 100, boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+            <div style={{ position: 'relative', width: '36px', height: '36px', flexShrink: 0 }}>
+              <svg width="36" height="36" viewBox="0 0 44 44" style={{ transform: 'rotate(-90deg)' }}>
+                <circle cx="22" cy="22" r="18" stroke="#1e1e2e" strokeWidth="4" fill="none"/>
+                <circle cx="22" cy="22" r="18" stroke={accent} strokeWidth="4" fill="none"
+                  strokeDasharray={`${2 * Math.PI * 18}`}
+                  strokeDashoffset={`${2 * Math.PI * 18 * (1 - progress)}`}
+                  strokeLinecap="round"
+                  style={{ transition: 'stroke-dashoffset 0.8s linear, stroke 0.3s' }}
+                />
+              </svg>
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: done ? '7px' : '10px', fontWeight: '700', color: accent }}>
+                  {done ? 'LIVE' : seconds}
+                </span>
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: '11px', fontWeight: '700', color: accent, letterSpacing: '0.06em' }}>
+                {done ? 'RENDER READY' : 'COLD START'}
+              </div>
+              <div style={{ fontSize: '10px', color: '#5a5a7a', marginTop: '2px' }}>
+                {done ? 'Both backends are online.' : `Warming up — ~${seconds}s remaining`}
+              </div>
+            </div>
+          </div>
+          <div style={{ fontSize: '11px', color: '#5a5a7a', lineHeight: '1.6', borderTop: '1px solid #2a2a42', paddingTop: '10px' }}>
+            Render free tier services spin down after inactivity. Agent Canvas and RAG Chat may be slow on the first request.
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function App() {
+  const [tab, setTab] = useState('home')
   const [seconds, setSeconds] = useState(90)
   const intervalRef = useRef(null)
-
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setSeconds(s => {
@@ -34,45 +109,6 @@ function ColdStartTimer() {
     }, 1000)
     return () => clearInterval(intervalRef.current)
   }, [])
-
-  const done = seconds === 0
-  const accent = done ? '#22c55e' : seconds <= 15 ? '#ef4444' : '#f59e0b'
-  const progress = seconds / 90
-
-  return (
-    <div style={{ marginLeft: 'auto', padding: '0 20px 0 12px', display: 'flex', alignItems: 'center', gap: '12px', borderLeft: '1px solid #2a2a42' }}>
-      {!done && (
-        <div style={{ fontSize: '11px', color: '#6060808', maxWidth: '220px', lineHeight: '1.4', color: '#5a5a7a' }}>
-          Services on Render may take up to 90s to come online. <span style={{ color: '#7070909' }}>Agent Canvas and RAG Chat may be delayed.</span>
-        </div>
-      )}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px', cursor: 'default' }}>
-        <div style={{ position: 'relative', width: '44px', height: '44px' }}>
-          <svg width="44" height="44" viewBox="0 0 44 44" style={{ transform: 'rotate(-90deg)' }}>
-            <circle cx="22" cy="22" r="18" stroke="#1e1e2e" strokeWidth="4" fill="none"/>
-            <circle cx="22" cy="22" r="18" stroke={accent} strokeWidth="4" fill="none"
-              strokeDasharray={`${2 * Math.PI * 18}`}
-              strokeDashoffset={`${2 * Math.PI * 18 * (1 - progress)}`}
-              strokeLinecap="round"
-              style={{ transition: 'stroke-dashoffset 0.8s linear, stroke 0.3s' }}
-            />
-          </svg>
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: done ? '9px' : '11px', fontWeight: '700', color: accent, letterSpacing: done ? '0.02em' : '0' }}>
-              {done ? 'LIVE' : seconds}
-            </span>
-          </div>
-        </div>
-        <div style={{ fontSize: '8px', fontWeight: '600', letterSpacing: '0.08em', color: done ? accent : '#4a4a6a', textAlign: 'center', lineHeight: '1.2' }}>
-          {done ? 'RENDER READY' : 'COLD START'}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export default function App() {
-  const [tab, setTab] = useState('home')
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh', overflow: 'hidden', background: '#0d0d14' }}>
@@ -100,11 +136,19 @@ export default function App() {
           Admin
           <span style={{ display: 'block', fontSize: '8px', fontWeight: '700', letterSpacing: '0.1em', color: '#f59e0b', lineHeight: '1', marginTop: '3px', textAlign: 'right' }}>IN DEV</span>
         </button>
-        <ColdStartTimer />
+        <ColdStartTimer seconds={seconds} />
       </div>
       <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
         {tab === 'home' && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', height: '100%', color: '#e2e2f0', overflowY: 'auto', paddingTop: '40px', paddingBottom: '32px' }}>
+            {seconds > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 18px', marginBottom: '28px', background: '#1a1608', border: '1px solid #3d3010', borderRadius: '8px', maxWidth: '520px', width: '90%' }}>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}><circle cx="7" cy="7" r="6" stroke="#f59e0b" strokeWidth="1.3"/><path d="M7 4v3.5l2 1.5" stroke="#f59e0b" strokeWidth="1.2" strokeLinecap="round"/></svg>
+                <span style={{ fontSize: '12px', color: '#c07a20', lineHeight: '1.5' }}>
+                  <strong style={{ color: '#f59e0b' }}>Cold start in progress</strong> — Render free-tier services may take up to 90s to come online. Agent Canvas and RAG Chat may be slow on the first request.
+                </span>
+              </div>
+            )}
             <div style={{ fontSize: '36px', fontWeight: '700', letterSpacing: '0.04em', textTransform: 'uppercase', background: 'linear-gradient(90deg, #7c7cf8, #a78bfa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Enterprise AI Hub
             </div>
