@@ -1,6 +1,7 @@
 import os
 from typing import List
 from google import genai
+from google.genai import types
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -11,7 +12,7 @@ _client = None
 def get_client():
     global _client
     if _client is None:
-        _client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'), http_options={'api_version': 'v1'})
+        _client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'), http_options=types.HttpOptions(api_version='v1'))
     return _client
 
 
