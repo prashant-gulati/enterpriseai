@@ -4,6 +4,8 @@ import { AGENT_FLOWS } from '../constants/agentFlows'
 import useFlowStore from '../store/flowStore'
 import HintPanel from './HintPanel'
 
+const BACKEND = import.meta.env.VITE_BACKEND_URL || '${BACKEND}'
+
 export default function NodePalette() {
   const [hintOpen, setHintOpen] = useState(false)
   const [expandedFlow, setExpandedFlow] = useState(null)
@@ -17,14 +19,14 @@ export default function NodePalette() {
         let filePath = triggerNode.data.filePath
         // If no specific file, resolve the first PDF from the folder
         if (!filePath && triggerNode.data.fileFolder) {
-          const res = await fetch(`http://localhost:8000/list-pdfs?folder=${encodeURIComponent(triggerNode.data.fileFolder)}`)
+          const res = await fetch(`${BACKEND}/list-pdfs?folder=${encodeURIComponent(triggerNode.data.fileFolder)}`)
           if (res.ok) {
             const files = await res.json()
             if (files.length > 0) filePath = files[0].path
           }
         }
         if (filePath) {
-          const res = await fetch(`http://localhost:8000/preload?path=${encodeURIComponent(filePath)}`)
+          const res = await fetch(`${BACKEND}/preload?path=${encodeURIComponent(filePath)}`)
           if (res.ok) {
             const { text, filename, char_count } = await res.json()
             nodes = nodes.map((n) =>

@@ -3,7 +3,7 @@ import './index.css'
 import Sidebar from './components/Sidebar'
 import ChatPanel from './components/ChatPanel'
 
-const API_BASE = '/rag'
+const API_BASE = import.meta.env.VITE_RAG_URL || '/rag'
 
 export default function RagApp() {
   const [docs, setDocs] = useState(() => {

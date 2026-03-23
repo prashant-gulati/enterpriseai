@@ -1,0 +1,50 @@
+services:
+  # ── Frontend (static site) ────────────────────────────────────────────────
+  - type: web
+    name: north-frontend
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_BACKEND_URL
+        value: https://north-backend.onrender.com        # update after backend deploys
+      - key: VITE_RAG_URL
+        value: https://north-rag-backend.onrender.com   # update after rag-backend deploys
+
+  # ── Agent backend (FastAPI, port 8000) ────────────────────────────────────
+  - type: web
+    name: north-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GOOGLE_API_KEY
+        sync: false   # set manually in Render dashboard
+      - key: ALLOWED_ORIGINS
+        value: https://north-frontend.onrender.com
+
+  # ── RAG backend (FastAPI, port 8001) ──────────────────────────────────────
+  - type: web
+    name: north-rag-backend
+    runtime: python
+    rootDir: rag-backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false   # set manually in Render dashboard
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        value: https://north-rag-backend.onrender.com/drive/callback
+      - key: ALLOWED_ORIGINS
+        value: https://north-frontend.onrender.com

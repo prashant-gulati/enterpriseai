@@ -28,9 +28,10 @@ from services.drive_service import (
 
 app = FastAPI(title='RAG Chat API')
 
+_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:5174").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['http://localhost:5174', 'http://localhost:5173'],
+    allow_origins=_origins,
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],

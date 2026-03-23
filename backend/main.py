@@ -14,9 +14,10 @@ import json
 
 app = FastAPI()
 
+_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:5174,http://localhost:5175").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
+    allow_origins=_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )

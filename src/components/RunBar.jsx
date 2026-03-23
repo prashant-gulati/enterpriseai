@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import useFlowStore from '../store/flowStore'
 
-const BACKEND = 'http://localhost:8000'
+const BACKEND = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000'
 
 export default function RunBar() {
   const { nodes, edges, updateNodeData, isRunning, setRunState } = useFlowStore(

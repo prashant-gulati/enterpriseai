@@ -32,7 +32,7 @@ function Field({ label, children }) {
   )
 }
 
-const BACKEND = 'http://localhost:8000'
+const BACKEND = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000'
 
 function FileUpload({ data, onChange }) {
   const [uploading, setUploading] = useState(false)
