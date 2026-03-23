@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import AgentApp from './AgentApp'
 import RagApp from './rag-chat/App'
 
@@ -19,6 +19,56 @@ const activeTabStyle = {
   ...tabStyle,
   color: '#e2e2f0',
   borderBottom: '2px solid #5b5bd6',
+}
+
+function ColdStartTimer() {
+  const [seconds, setSeconds] = useState(90)
+  const intervalRef = useRef(null)
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setSeconds(s => {
+        if (s <= 1) { clearInterval(intervalRef.current); return 0 }
+        return s - 1
+      })
+    }, 1000)
+    return () => clearInterval(intervalRef.current)
+  }, [])
+
+  const done = seconds === 0
+  const accent = done ? '#22c55e' : seconds <= 15 ? '#ef4444' : '#f59e0b'
+  const progress = seconds / 90
+
+  return (
+    <div style={{ marginLeft: 'auto', padding: '0 20px 0 12px', display: 'flex', alignItems: 'center', gap: '12px', borderLeft: '1px solid #2a2a42' }}>
+      {!done && (
+        <div style={{ fontSize: '11px', color: '#6060808', maxWidth: '220px', lineHeight: '1.4', color: '#5a5a7a' }}>
+          Services on Render may take up to 90s to come online. <span style={{ color: '#7070909' }}>Agent Canvas and RAG Chat may be delayed.</span>
+        </div>
+      )}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px', cursor: 'default' }}>
+        <div style={{ position: 'relative', width: '44px', height: '44px' }}>
+          <svg width="44" height="44" viewBox="0 0 44 44" style={{ transform: 'rotate(-90deg)' }}>
+            <circle cx="22" cy="22" r="18" stroke="#1e1e2e" strokeWidth="4" fill="none"/>
+            <circle cx="22" cy="22" r="18" stroke={accent} strokeWidth="4" fill="none"
+              strokeDasharray={`${2 * Math.PI * 18}`}
+              strokeDashoffset={`${2 * Math.PI * 18 * (1 - progress)}`}
+              strokeLinecap="round"
+              style={{ transition: 'stroke-dashoffset 0.8s linear, stroke 0.3s' }}
+            />
+          </svg>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ fontSize: done ? '9px' : '11px', fontWeight: '700', color: accent, letterSpacing: done ? '0.02em' : '0' }}>
+              {done ? 'LIVE' : seconds}
+            </span>
+          </div>
+        </div>
+        <div style={{ fontSize: '8px', fontWeight: '600', letterSpacing: '0.08em', color: done ? accent : '#4a4a6a', textAlign: 'center', lineHeight: '1.2' }}>
+          {done ? 'RENDER READY' : 'COLD START'}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default function App() {
@@ -50,6 +100,7 @@ export default function App() {
           Admin
           <span style={{ display: 'block', fontSize: '8px', fontWeight: '700', letterSpacing: '0.1em', color: '#f59e0b', lineHeight: '1', marginTop: '3px', textAlign: 'right' }}>IN DEV</span>
         </button>
+        <ColdStartTimer />
       </div>
       <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
         {tab === 'home' && (
@@ -163,8 +214,8 @@ export default function App() {
               </div>
               <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                 {/* SOC 2 Type II */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '16px 20px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '12px', width: '100px' }}>
-                  <svg width="36" height="40" viewBox="0 0 36 40" fill="none">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '7px 10px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '8px', width: '56px' }}>
+                  <svg width="16" height="18" viewBox="0 0 36 40" fill="none">
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#1e1e2e" stroke="#5b5bd6" strokeWidth="1.5"/>
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="url(#soc2grad)" fillOpacity="0.15"/>
                     <path d="M12 20l4 4 8-8" stroke="#7c7cf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -176,13 +227,13 @@ export default function App() {
                     </defs>
                   </svg>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '11px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.05em' }}>SOC 2</div>
-                    <div style={{ fontSize: '9px', color: '#5b5bd6', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>TYPE II</div>
+                    <div style={{ fontSize: '8px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>SOC 2</div>
+                    <div style={{ fontSize: '8px', color: '#5b5bd6', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>TYPE II</div>
                   </div>
                 </div>
                 {/* ISO 27001 */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '16px 20px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '12px', width: '100px' }}>
-                  <svg width="36" height="40" viewBox="0 0 36 40" fill="none">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '7px 10px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '8px', width: '56px' }}>
+                  <svg width="16" height="18" viewBox="0 0 36 40" fill="none">
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#1e1e2e" stroke="#22c55e" strokeWidth="1.5"/>
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#22c55e" fillOpacity="0.08"/>
                     <rect x="14" y="19" width="8" height="7" rx="1" stroke="#22c55e" strokeWidth="1.5"/>
@@ -190,34 +241,34 @@ export default function App() {
                     <circle cx="18" cy="22.5" r="1" fill="#22c55e"/>
                   </svg>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '11px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.05em' }}>ISO 27001</div>
-                    <div style={{ fontSize: '9px', color: '#22c55e', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>CERTIFIED</div>
+                    <div style={{ fontSize: '8px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>ISO 27001</div>
+                    <div style={{ fontSize: '8px', color: '#22c55e', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>CERTIFIED</div>
                   </div>
                 </div>
                 {/* ISO/IEC 42001 */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '16px 20px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '12px', width: '100px' }}>
-                  <svg width="36" height="40" viewBox="0 0 36 40" fill="none">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '7px 10px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '8px', width: '56px' }}>
+                  <svg width="16" height="18" viewBox="0 0 36 40" fill="none">
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#1e1e2e" stroke="#f59e0b" strokeWidth="1.5"/>
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#f59e0b" fillOpacity="0.08"/>
                     <circle cx="18" cy="20" r="3.5" stroke="#f59e0b" strokeWidth="1.5"/>
                     <path d="M18 13v2M18 25v2M11 20h2M23 20h2M13.1 15.1l1.4 1.4M21.5 21.5l1.4 1.4M13.1 24.9l1.4-1.4M21.5 18.5l1.4-1.4" stroke="#f59e0b" strokeWidth="1.2" strokeLinecap="round"/>
                   </svg>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '11px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.05em' }}>ISO 42001</div>
-                    <div style={{ fontSize: '9px', color: '#f59e0b', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>AI MGMT</div>
+                    <div style={{ fontSize: '8px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>ISO 42001</div>
+                    <div style={{ fontSize: '8px', color: '#f59e0b', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>AI MGMT</div>
                   </div>
                 </div>
                 {/* GDPR / CCPA */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '16px 20px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '12px', width: '100px' }}>
-                  <svg width="36" height="40" viewBox="0 0 36 40" fill="none">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '7px 10px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '8px', width: '56px' }}>
+                  <svg width="16" height="18" viewBox="0 0 36 40" fill="none">
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#1e1e2e" stroke="#38bdf8" strokeWidth="1.5"/>
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#38bdf8" fillOpacity="0.08"/>
                     <circle cx="18" cy="17" r="3" stroke="#38bdf8" strokeWidth="1.5"/>
                     <path d="M11 27c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#38bdf8" strokeWidth="1.5" strokeLinecap="round"/>
                   </svg>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '11px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.05em' }}>GDPR</div>
-                    <div style={{ fontSize: '9px', color: '#38bdf8', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>CCPA</div>
+                    <div style={{ fontSize: '8px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>GDPR</div>
+                    <div style={{ fontSize: '8px', color: '#38bdf8', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>CCPA</div>
                   </div>
                 </div>
               </div>
