@@ -1,6 +1,6 @@
-# North — Enterprise AI Agent Platform
+# Enterprise AI Agent Platform
 
-North is a visual platform for building, deploying, and managing AI agents across your enterprise. Design multi-step agent workflows in a drag-and-drop canvas, connect to your business tools, and run production-grade AI pipelines — all within your own infrastructure.
+A visual platform for building, deploying, and managing AI agents across your enterprise. Design multi-step agent workflows in a drag-and-drop canvas, connect to your business tools, and run production-grade AI pipelines — all within your own infrastructure.
 
 ---
 
