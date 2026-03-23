@@ -1,6 +1,7 @@
 import os
 import json
 import urllib.request
+import urllib.error
 from typing import List
 from dotenv import load_dotenv
 
@@ -10,7 +11,19 @@ _EMBED_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/text-embe
 
 
 def _api_key():
-    return os.getenv('GEMINI_API_KEY')
+    key = os.getenv('GEMINI_API_KEY')
+    if not key:
+        raise RuntimeError('GEMINI_API_KEY env var is not set')
+    return key
+
+
+def _call(url: str, body: bytes) -> dict:
+    req = urllib.request.Request(url, data=body, headers={'Content-Type': 'application/json'})
+    try:
+        with urllib.request.urlopen(req) as resp:
+            return json.loads(resp.read())
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(f'Gemini API {e.code}: {e.read().decode()}') from e
 
 
 def create_embeddings(texts: List[str]) -> List[List[float]]:
@@ -24,9 +37,7 @@ def create_embeddings(texts: List[str]) -> List[List[float]]:
                 for t in batch
             ]
         }).encode()
-        req = urllib.request.Request(url, data=body, headers={'Content-Type': 'application/json'})
-        with urllib.request.urlopen(req) as resp:
-            data = json.loads(resp.read())
+        data = _call(url, body)
         embeddings.extend(e['values'] for e in data['embeddings'])
     return embeddings
 
@@ -34,7 +45,5 @@ def create_embeddings(texts: List[str]) -> List[List[float]]:
 def embed_query(query: str) -> List[float]:
     url = f'{_EMBED_BASE}:embedContent?key={_api_key()}'
     body = json.dumps({'content': {'parts': [{'text': query}]}}).encode()
-    req = urllib.request.Request(url, data=body, headers={'Content-Type': 'application/json'})
-    with urllib.request.urlopen(req) as resp:
-        data = json.loads(resp.read())
+    data = _call(url, body)
     return data['embedding']['values']
