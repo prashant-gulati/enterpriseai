@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-_EMBED_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004'
+_EMBED_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/embedding-001'
 
 
 def _api_key():
@@ -36,7 +36,7 @@ def create_embeddings(texts: List[str]) -> List[List[float]]:
         batch = texts[i:i + 100]
         body = json.dumps({
             'requests': [
-                {'model': 'models/text-embedding-004', 'content': {'parts': [{'text': t}]}}
+                {'model': 'models/embedding-001', 'content': {'parts': [{'text': t}]}}
                 for t in batch
             ]
         }).encode()
