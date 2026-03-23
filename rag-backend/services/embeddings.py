@@ -1,35 +1,33 @@
 import os
 from typing import List
-import google.generativeai as genai
+from google import genai
 from dotenv import load_dotenv
 
 load_dotenv()
 
-_configured = False
+_client = None
 
 
-def _ensure_configured():
-    global _configured
-    if not _configured:
-        genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
-        _configured = True
+def get_client():
+    global _client
+    if _client is None:
+        _client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
+    return _client
 
 
 def create_embeddings(texts: List[str]) -> List[List[float]]:
-    _ensure_configured()
-    result = genai.embed_content(
+    client = get_client()
+    result = client.models.embed_content(
         model='models/text-embedding-004',
-        content=texts,
-        task_type='retrieval_document',
+        contents=texts,
     )
-    return result['embedding']
+    return [e.values for e in result.embeddings]
 
 
 def embed_query(query: str) -> List[float]:
-    _ensure_configured()
-    result = genai.embed_content(
+    client = get_client()
+    result = client.models.embed_content(
         model='models/text-embedding-004',
-        content=query,
-        task_type='retrieval_query',
+        contents=query,
     )
-    return result['embedding']
+    return result.embeddings[0].values
