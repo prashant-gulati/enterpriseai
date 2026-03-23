@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0f1117;
+  color: #e2e8f0;
+}
+
+.react-flow__node {
+  border-radius: 8px;
+  overflow: visible;
+}
+
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #1e2130;
+}
+
+.react-flow__edge-path {
+  stroke-width: 2;
+}
+
+.react-flow__background {
+  background-color: #0f1117;
+}
+
+.react-flow__controls-button {
+  background: #1e2130;
+  border-bottom: 1px solid #475569;
+  fill: #cbd5e1;
+  width: 24px;
+  height: 24px;
+}
+
+.react-flow__controls-button:hover {
+  background: #2d3148;
+  fill: #fff;
+}
+
+.react-flow__controls-button svg {
+  max-width: 12px;
+  max-height: 12px;
+}

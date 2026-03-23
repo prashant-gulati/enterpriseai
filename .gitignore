@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.*
+backend/.venv/
+rag-backend/.venv/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+pdfs/
