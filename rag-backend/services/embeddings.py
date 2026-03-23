@@ -18,7 +18,10 @@ def _api_key():
 
 
 def _call(url: str, body: bytes) -> dict:
-    req = urllib.request.Request(url, data=body, headers={'Content-Type': 'application/json'})
+    req = urllib.request.Request(url, data=body, headers={
+        'Content-Type': 'application/json',
+        'x-goog-api-key': _api_key(),
+    })
     try:
         with urllib.request.urlopen(req) as resp:
             return json.loads(resp.read())
@@ -27,7 +30,7 @@ def _call(url: str, body: bytes) -> dict:
 
 
 def create_embeddings(texts: List[str]) -> List[List[float]]:
-    url = f'{_EMBED_BASE}:batchEmbedContents?key={_api_key()}'
+    url = f'{_EMBED_BASE}:batchEmbedContents'
     embeddings = []
     for i in range(0, len(texts), 100):
         batch = texts[i:i + 100]
@@ -43,7 +46,7 @@ def create_embeddings(texts: List[str]) -> List[List[float]]:
 
 
 def embed_query(query: str) -> List[float]:
-    url = f'{_EMBED_BASE}:embedContent?key={_api_key()}'
+    url = f'{_EMBED_BASE}:embedContent'
     body = json.dumps({'content': {'parts': [{'text': query}]}}).encode()
     data = _call(url, body)
     return data['embedding']['values']
