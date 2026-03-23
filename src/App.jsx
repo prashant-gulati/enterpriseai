@@ -111,7 +111,10 @@ export default function App() {
             <div style={{ fontSize: '15px', color: '#8888aa', maxWidth: '420px', textAlign: 'center', lineHeight: '1.6', marginTop: '12px' }}>
               Your unified platform for building, running, and managing AI agents across the enterprise.
             </div>
-            <div style={{ marginTop: '28px', display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center', maxWidth: '680px' }}>
+            <div style={{ marginTop: '52px', fontSize: '11px', fontWeight: '700', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+              Key Features
+            </div>
+            <div style={{ marginTop: '14px', display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center', maxWidth: '680px' }}>
               {[
                 { icon: <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path d="M9 2L3 5v4c0 3.31 2.57 6.41 6 7.16C12.43 15.41 15 12.31 15 9V5L9 2z" stroke="#7c7cf8" strokeWidth="1.4" strokeLinejoin="round"/><path d="M6.5 9l2 2 3-3" stroke="#7c7cf8" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>, label: 'Privacy', desc: 'Deploy within your VPC or on-prem for complete data sovereignty' },
                 { icon: <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><rect x="3" y="8" width="12" height="8" rx="1.5" stroke="#a78bfa" strokeWidth="1.4"/><path d="M6 8V6a3 3 0 016 0v2" stroke="#a78bfa" strokeWidth="1.4" strokeLinecap="round"/><circle cx="9" cy="12" r="1.2" fill="#a78bfa"/></svg>, label: 'Security', desc: 'Protect your data with zero-trust security architecture' },
@@ -212,10 +215,10 @@ export default function App() {
               <div style={{ fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#4a4a6a', fontWeight: '600' }}>
                 Trusted &amp; Certified
               </div>
-              <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                 {/* SOC 2 Type II */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '7px 10px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '8px', width: '56px' }}>
-                  <svg width="16" height="18" viewBox="0 0 36 40" fill="none">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '5px 8px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '6px', width: '46px' }}>
+                  <svg width="13" height="15" viewBox="0 0 36 40" fill="none">
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#1e1e2e" stroke="#5b5bd6" strokeWidth="1.5"/>
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="url(#soc2grad)" fillOpacity="0.15"/>
                     <path d="M12 20l4 4 8-8" stroke="#7c7cf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -227,13 +230,13 @@ export default function App() {
                     </defs>
                   </svg>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '8px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>SOC 2</div>
-                    <div style={{ fontSize: '8px', color: '#5b5bd6', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>TYPE II</div>
+                    <div style={{ fontSize: '7px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>SOC 2</div>
+                    <div style={{ fontSize: '7px', color: '#5b5bd6', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>TYPE II</div>
                   </div>
                 </div>
                 {/* ISO 27001 */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '7px 10px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '8px', width: '56px' }}>
-                  <svg width="16" height="18" viewBox="0 0 36 40" fill="none">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '5px 8px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '6px', width: '46px' }}>
+                  <svg width="13" height="15" viewBox="0 0 36 40" fill="none">
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#1e1e2e" stroke="#22c55e" strokeWidth="1.5"/>
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#22c55e" fillOpacity="0.08"/>
                     <rect x="14" y="19" width="8" height="7" rx="1" stroke="#22c55e" strokeWidth="1.5"/>
@@ -241,34 +244,34 @@ export default function App() {
                     <circle cx="18" cy="22.5" r="1" fill="#22c55e"/>
                   </svg>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '8px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>ISO 27001</div>
-                    <div style={{ fontSize: '8px', color: '#22c55e', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>CERTIFIED</div>
+                    <div style={{ fontSize: '7px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>ISO 27001</div>
+                    <div style={{ fontSize: '7px', color: '#22c55e', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>CERTIFIED</div>
                   </div>
                 </div>
                 {/* ISO/IEC 42001 */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '7px 10px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '8px', width: '56px' }}>
-                  <svg width="16" height="18" viewBox="0 0 36 40" fill="none">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '5px 8px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '6px', width: '46px' }}>
+                  <svg width="13" height="15" viewBox="0 0 36 40" fill="none">
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#1e1e2e" stroke="#f59e0b" strokeWidth="1.5"/>
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#f59e0b" fillOpacity="0.08"/>
                     <circle cx="18" cy="20" r="3.5" stroke="#f59e0b" strokeWidth="1.5"/>
                     <path d="M18 13v2M18 25v2M11 20h2M23 20h2M13.1 15.1l1.4 1.4M21.5 21.5l1.4 1.4M13.1 24.9l1.4-1.4M21.5 18.5l1.4-1.4" stroke="#f59e0b" strokeWidth="1.2" strokeLinecap="round"/>
                   </svg>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '8px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>ISO 42001</div>
-                    <div style={{ fontSize: '8px', color: '#f59e0b', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>AI MGMT</div>
+                    <div style={{ fontSize: '7px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>ISO 42001</div>
+                    <div style={{ fontSize: '7px', color: '#f59e0b', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>AI MGMT</div>
                   </div>
                 </div>
                 {/* GDPR / CCPA */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '7px 10px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '8px', width: '56px' }}>
-                  <svg width="16" height="18" viewBox="0 0 36 40" fill="none">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '5px 8px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '6px', width: '46px' }}>
+                  <svg width="13" height="15" viewBox="0 0 36 40" fill="none">
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#1e1e2e" stroke="#38bdf8" strokeWidth="1.5"/>
                     <path d="M18 2L3 8.5V20C3 28.5 9.5 36.5 18 39C26.5 36.5 33 28.5 33 20V8.5L18 2Z" fill="#38bdf8" fillOpacity="0.08"/>
                     <circle cx="18" cy="17" r="3" stroke="#38bdf8" strokeWidth="1.5"/>
                     <path d="M11 27c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#38bdf8" strokeWidth="1.5" strokeLinecap="round"/>
                   </svg>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '8px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>GDPR</div>
-                    <div style={{ fontSize: '8px', color: '#38bdf8', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>CCPA</div>
+                    <div style={{ fontSize: '7px', fontWeight: '700', color: '#c0c0e0', letterSpacing: '0.04em' }}>GDPR</div>
+                    <div style={{ fontSize: '7px', color: '#38bdf8', fontWeight: '600', letterSpacing: '0.08em', marginTop: '1px' }}>CCPA</div>
                   </div>
                 </div>
               </div>
