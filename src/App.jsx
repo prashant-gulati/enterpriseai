@@ -32,18 +32,23 @@ export default function App() {
         </span>
         <button style={tab === 'home' ? activeTabStyle : tabStyle} onClick={() => setTab('home')}>
           Home
+          <span style={{ display: 'block', fontSize: '8px', lineHeight: '1', marginTop: '3px' }}>&nbsp;</span>
         </button>
         <button style={tab === 'agent' ? activeTabStyle : tabStyle} onClick={() => setTab('agent')}>
           Agent Canvas
+          <span style={{ display: 'block', fontSize: '8px', lineHeight: '1', marginTop: '3px' }}>&nbsp;</span>
         </button>
         <button style={tab === 'rag' ? activeTabStyle : tabStyle} onClick={() => setTab('rag')}>
           RAG Chat
+          <span style={{ display: 'block', fontSize: '8px', lineHeight: '1', marginTop: '3px' }}>&nbsp;</span>
         </button>
         <button style={tab === 'observability' ? activeTabStyle : tabStyle} onClick={() => setTab('observability')}>
           Observability
+          <span style={{ display: 'block', fontSize: '8px', fontWeight: '700', letterSpacing: '0.1em', color: '#f59e0b', lineHeight: '1', marginTop: '3px', textAlign: 'right' }}>IN DEV</span>
         </button>
         <button style={tab === 'admin' ? activeTabStyle : tabStyle} onClick={() => setTab('admin')}>
           Admin
+          <span style={{ display: 'block', fontSize: '8px', fontWeight: '700', letterSpacing: '0.1em', color: '#f59e0b', lineHeight: '1', marginTop: '3px', textAlign: 'right' }}>IN DEV</span>
         </button>
       </div>
       <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
@@ -221,8 +226,60 @@ export default function App() {
         )}
         {tab === 'agent' && <AgentApp />}
         {tab === 'rag' && <RagApp />}
-        {tab === 'observability' && <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#8888aa', fontSize: '16px' }}>Observability — coming soon</div>}
-        {tab === 'admin' && <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#8888aa', fontSize: '16px' }}>Admin — coming soon</div>}
+        {tab === 'observability' && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#e2e2f0', gap: '0' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 10px', background: '#1e1a0e', border: '1px solid #3d3010', borderRadius: '6px', marginBottom: '28px' }}>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="#f59e0b" strokeWidth="1.2"/><path d="M5 3v2.5l1.5 1" stroke="#f59e0b" strokeWidth="1.1" strokeLinecap="round"/></svg>
+              <span style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '0.1em', color: '#f59e0b' }}>IN DEVELOPMENT</span>
+            </div>
+            <div style={{ fontSize: '13px', fontWeight: '700', color: '#7c7cf8', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '12px' }}>Compliance</div>
+            <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '380px', width: '100%' }}>
+              {[
+                'Full data traceability and audit-ready logs',
+                'Designed with SOC 2, ISO 27001, ISO/IEC 42001, GDPR, and CCPA in mind',
+              ].map(item => (
+                <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px 16px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '8px' }}>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0, marginTop: '1px' }}><path d="M2 7.5L5.5 11l6.5-7" stroke="#5b5bd6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  <span style={{ fontSize: '13px', color: '#8888aa', lineHeight: '1.5' }}>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {tab === 'admin' && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#e2e2f0', gap: '0' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 10px', background: '#1e1a0e', border: '1px solid #3d3010', borderRadius: '6px', marginBottom: '28px' }}>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="#f59e0b" strokeWidth="1.2"/><path d="M5 3v2.5l1.5 1" stroke="#f59e0b" strokeWidth="1.1" strokeLinecap="round"/></svg>
+              <span style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '0.1em', color: '#f59e0b' }}>IN DEVELOPMENT</span>
+            </div>
+            <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', flexWrap: 'wrap', justifyContent: 'center', maxWidth: '680px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '280px', flex: '1' }}>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#7c7cf8', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '12px' }}>Security &amp; IAM</div>
+                {[
+                  'Role-based access control for the enterprise user base',
+                  'Fine-grained permissioning to access agents and data sources',
+                ].map(item => (
+                  <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px 16px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '8px', marginBottom: '8px' }}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0, marginTop: '1px' }}><path d="M2 7.5L5.5 11l6.5-7" stroke="#5b5bd6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <span style={{ fontSize: '13px', color: '#8888aa', lineHeight: '1.5' }}>{item}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0', minWidth: '280px', flex: '1' }}>
+                <div style={{ fontSize: '13px', fontWeight: '700', color: '#7c7cf8', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '12px' }}>Privacy</div>
+                {[
+                  'Host in the cloud on Render',
+                  'Host in a private VPC or on-prem to maintain complete data sovereignty',
+                ].map(item => (
+                  <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px 16px', background: '#13131e', border: '1px solid #2a2a42', borderRadius: '8px', marginBottom: '8px' }}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0, marginTop: '1px' }}><path d="M2 7.5L5.5 11l6.5-7" stroke="#5b5bd6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <span style={{ fontSize: '13px', color: '#8888aa', lineHeight: '1.5' }}>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
