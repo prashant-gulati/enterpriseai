@@ -11,7 +11,7 @@ _client = None
 def get_client():
     global _client
     if _client is None:
-        _client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
+        _client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'), http_options={'api_version': 'v1'})
     return _client
 
 
