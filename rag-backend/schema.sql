@@ -5,14 +5,14 @@
 CREATE EXTENSION IF NOT EXISTS vector;
 
 -- 2. Create chunks table
---    gemini-embedding-001 produces 3072-dimensional embeddings
+--    gemini-embedding-001 with outputDimensionality=768
 CREATE TABLE IF NOT EXISTS rag_chunks (
   id          BIGSERIAL PRIMARY KEY,
   doc_id      TEXT        NOT NULL,
   filename    TEXT        NOT NULL,
   chunk_index INTEGER     NOT NULL,
   content     TEXT        NOT NULL,
-  embedding   VECTOR(3072),
+  embedding   VECTOR(768),
   created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
@@ -27,7 +27,7 @@ CREATE INDEX IF NOT EXISTS rag_chunks_doc_id_idx ON rag_chunks (doc_id);
 
 -- 5. Similarity search RPC function
 CREATE OR REPLACE FUNCTION match_rag_chunks(
-  query_embedding  VECTOR(3072),
+  query_embedding  VECTOR(768),
   match_count      INT     DEFAULT 5,
   filter_doc_ids   TEXT[]  DEFAULT NULL
 )

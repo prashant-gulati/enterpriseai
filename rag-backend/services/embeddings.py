@@ -36,7 +36,7 @@ def create_embeddings(texts: List[str]) -> List[List[float]]:
         batch = texts[i:i + 100]
         body = json.dumps({
             'requests': [
-                {'model': 'models/gemini-embedding-001', 'content': {'parts': [{'text': t}]}}
+                {'model': 'models/gemini-embedding-001', 'content': {'parts': [{'text': t}]}, 'outputDimensionality': 768}
                 for t in batch
             ]
         }).encode()
@@ -47,6 +47,6 @@ def create_embeddings(texts: List[str]) -> List[List[float]]:
 
 def embed_query(query: str) -> List[float]:
     url = f'{_EMBED_BASE}:embedContent'
-    body = json.dumps({'content': {'parts': [{'text': query}]}}).encode()
+    body = json.dumps({'content': {'parts': [{'text': query}]}, 'outputDimensionality': 768}).encode()
     data = _call(url, body)
     return data['embedding']['values']
