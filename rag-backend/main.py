@@ -67,6 +67,22 @@ def extract_text(content: bytes, filename: str) -> str:
 PDFS_DIR = os.path.join(os.path.dirname(__file__), '..', 'pdfs')
 
 
+@app.get('/debug-models')
+async def debug_models():
+    import urllib.request, urllib.error, json
+    key = os.getenv('GEMINI_API_KEY', '')
+    if not key:
+        return {'error': 'GEMINI_API_KEY not set'}
+    url = f'https://generativelanguage.googleapis.com/v1beta/models?key={key}'
+    try:
+        with urllib.request.urlopen(url) as resp:
+            data = json.loads(resp.read())
+        names = [m['name'] for m in data.get('models', [])]
+        return {'key_prefix': key[:8] + '...', 'model_count': len(names), 'models': names}
+    except urllib.error.HTTPError as e:
+        return {'error': f'{e.code}: {e.read().decode()}'}
+
+
 @app.get('/defaults')
 async def list_defaults():
     files = []
