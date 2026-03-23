@@ -17,11 +17,15 @@ def get_client():
 
 def create_embeddings(texts: List[str]) -> List[List[float]]:
     client = get_client()
-    result = client.models.embed_content(
-        model='models/text-embedding-004',
-        contents=texts,
-    )
-    return [e.values for e in result.embeddings]
+    embeddings = []
+    for i in range(0, len(texts), 100):
+        batch = texts[i:i + 100]
+        result = client.models.embed_content(
+            model='models/text-embedding-004',
+            contents=batch,
+        )
+        embeddings.extend(e.values for e in result.embeddings)
+    return embeddings
 
 
 def embed_query(query: str) -> List[float]:
