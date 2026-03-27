@@ -15,9 +15,8 @@ services:
   - type: web
     name: enterpriseai-backend
     runtime: python
-    rootDir: backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: GOOGLE_API_KEY
         sync: false   # set manually in Render dashboard
@@ -28,9 +27,8 @@ services:
   - type: web
     name: enterpriseai-rag-backend
     runtime: python
-    rootDir: rag-backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: pip install -r rag-backend/requirements.txt
+    startCommand: cd rag-backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: GEMINI_API_KEY
         sync: false   # set manually in Render dashboard
