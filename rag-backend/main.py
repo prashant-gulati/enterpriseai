@@ -60,6 +60,11 @@ def extract_text(content: bytes, filename: str) -> str:
         return content.decode('utf-8', errors='replace')
 
 
+@app.get('/')
+async def root():
+    return {'status': 'ok'}
+
+
 # ---------------------------------------------------------------------------
 # Default / sample documents
 # ---------------------------------------------------------------------------

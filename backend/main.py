@@ -30,6 +30,11 @@ class FlowPayload(BaseModel):
     trigger_id: str | None = None
 
 
+@app.get('/')
+async def root():
+    return {'status': 'ok'}
+
+
 @app.post("/run")
 async def run(payload: FlowPayload):
     async def stream():
